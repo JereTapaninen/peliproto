@@ -1,20 +1,24 @@
 import AudioManager from "./audioManager.js";
-import Level from "./levels/level.js";
+import InputManager from "./inputManager.js";
+import Population from "./population.js";
 
 const startGame = () => {
+    document.getElementById("click-overlay").style.display = "none";
     window.removeEventListener("click", startGame);
 
     const canvas = document.getElementById("game");
     const context = canvas.getContext("2d");
+    const inputManager = new InputManager(canvas);
+    const populationManager = new Population(6, inputManager, canvas);
     const dpi = window.devicePixelRatio;
 
     const state = {
         currentSongInfo: null,
-        currentLevel: null,
         elapsedTicks: 0
     };
 
     window.state = state;
+    window.game = populationManager;
 
     context.webkitImageSmoothingEnabled = false;
     context.mozImageSmoothingEnabled = false;
@@ -34,20 +38,16 @@ const startGame = () => {
 
         context.clearRect(0, 0, canvas.width, canvas.height);
 
-        state.currentLevel?.update(canvas, state.elapsedTicks);
-        state.currentLevel?.draw(canvas, context);
+        populationManager.update(state.elapsedTicks, canvas, state.currentSongInfo);
+        populationManager.draw(canvas, context);
+        // state.currentLevel?.update(state.elapsedTicks, canvas, inputManager);
+        // state.currentLevel?.draw(canvas, context);
 
         window.requestAnimationFrame(tick);
     };
 
     const onPlay = songInfo => {
-        console.log("audio is playing!");
-
         state.currentSongInfo = songInfo;
-
-        const { analyser } = songInfo;
-
-        state.currentLevel = new Level("ghost", analyser, 1, state.elapsedTicks);
     };
 
     const onTimeUpdate = ({ gain, analyser }) => {
@@ -57,13 +57,10 @@ const startGame = () => {
     };
 
     const audioManager = new AudioManager();
-    audioManager.start(
-        "ghost",
-        {
-            timeupdate: onTimeUpdate,
-            play: onPlay
-        }
-    );
+    audioManager.startPlaylist({
+        timeupdate: onTimeUpdate,
+        play: onPlay
+    });
 
     tick();
 };

@@ -2,23 +2,40 @@
 <html lang="en">
     <head>
         <title>AudioWave</title>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="style/reset.css" />
         <link rel="stylesheet" type="text/css" href="style/style.css" />
         <meta charset="utf-8">
     </head>
 
     <body>
+        <div id="click-overlay">
+            <h1>Click once to start the game.</h1>
+        </div>
+
         <canvas id="game">
             Your browser doesn't support HTML5 canvas.
         </canvas>
 
         <div id="songs">
+            <audio preload="auto" src="res/songs/bomfunk.mp3" id="bomfunk-song">
+                Your browser doesn't support HTML5 audio.
+            </audio>
+            <!--
             <audio preload="auto" src="res/songs/ghost.mp3" id="ghost-song">
                 Your browser doesn't support HTML5 audio.
             </audio>
+            <audio preload="auto" src="res/songs/identity2.mp3" id="identity2-song">
+                Your browser doesn't support HTML5 audio.
+            </audio>
+            <audio preload="auto" src="res/songs/ultimate_ascension.mp3" id="ultimate_ascension-song">
+                Your browser doesn't support HTML5 audio.
+            </audio>-->
         </div>
 
         <div id="images">
+            <img src="./res/images/kirka.JPG" id="kirka" />
+            <img src="./res/images/bomfunk.JPG" id="bomfunk" />
         </div>
     </body>
 

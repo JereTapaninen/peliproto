@@ -9,3 +9,6 @@ export const collectionToArray = collection => {
 export const nextFloat = (min, max) => {
     return (Math.random() * (max + 1)) - Math.abs(min);
 };
+
+export const clamp = (value, min, max) =>
+    value < min ? min : value > max ? max : value;
